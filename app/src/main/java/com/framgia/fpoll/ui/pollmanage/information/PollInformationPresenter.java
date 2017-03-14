@@ -26,4 +26,18 @@ public class PollInformationPresenter implements PollInformationContract.Present
     public void clickViewSetting() {
         mView.showDialogSetting();
     }
+
+    @Override
+    public void showDatePicker() {
+        if (mView != null) mView.showDatePicker();
+    }
+
+    @Override
+    public void showTimePicker() {
+        if (mView != null) mView.showTimePicker();
+    }
+
+    @Override
+    public void saveData() {
+    }
 }

@@ -6,12 +6,26 @@
     <data>
 
         <variable
+            name="msgError"
+            type="java.lang.String"/>
+
+        <variable
+            name="msgErrorEmail"
+            type="java.lang.String"/>
+
+        <variable
+            name="fragment"
+            type="com.framgia.fpoll.ui.pollmanage.information.PollInformationFragment"/>
+
+        <variable
             name="information"
             type="com.framgia.fpoll.data.model.DataInfoItem"/>
 
         <variable
             name="handler"
             type="com.framgia.fpoll.ui.pollmanage.information.PollInformationHandler"/>
+
+        <import type="com.framgia.fpoll.util.TimeUtil"/>
     </data>
 
     <ScrollView
@@ -55,98 +69,114 @@
                 android:textColor="@color/color_blued"/>
 
             <LinearLayout
-                style="@style/LayoutManagerPoll">
+                style="@style/RegisterLayoutStyle"
+                android:padding="@dimen/dp_1">
 
                 <ImageView
-                    style="@style/ImageViewLogin"
-                    android:src="@drawable/ic_email_white_24px"/>
-
-                <include layout="@layout/partial_line"/>
-
-                <EditText
-                    style="@style/EditTextLogin"
-                    android:inputType="textEmailAddress"
-                    android:text="@={information.poll.email}"/>
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/LayoutManagerPoll">
-
-                <ImageView
-                    style="@style/ImageViewLogin"
+                    style="@style/RegisterImageViewStyle"
                     android:src="@drawable/ic_person_black_24dp"/>
 
-                <include layout="@layout/partial_line"/>
+                <EditText
+                    android:id="@+id/edt_user_name"
+                    style="@style/RegisterEditTextStyle"
+                    android:hint="@string/title_username"
+                    android:text="@={information.poll.name}"
+                    bind:setErrorEditText="@{msgError}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/RegisterLayoutStyle">
+
+                <ImageView
+                    style="@style/RegisterImageViewStyle"
+                    android:layout_margin="@dimen/dp_1"
+                    android:background="@color/color_gray"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/ic_email_white_24px"/>
 
                 <EditText
-                    style="@style/EditTextManagerPoll"
-                    android:inputType="text"
-                    android:text="@={information.poll.name}"/>
+                    android:id="@+id/edt_email"
+                    style="@style/RegisterEditTextStyle"
+                    android:hint="@string/title_email"
+                    android:inputType="textEmailAddress"
+                    android:text="@={information.poll.email}"
+                    bind:setErrorEditText="@{msgError}"
+                    bind:setErrorEmail="@{msgErrorEmail}"/>
 
             </LinearLayout>
 
-            <LinearLayout style="@style/LayoutManagerPoll">
+            <LinearLayout
+                style="@style/RegisterLayoutStyle">
 
                 <ImageView
-                    style="@style/ImageViewLogin"
+                    style="@style/RegisterImageViewStyle"
+                    android:layout_margin="@dimen/dp_1"
+                    android:background="@color/color_gray"
+                    android:padding="@dimen/dp_10"
                     android:src="@drawable/ic_title"/>
 
-                <include layout="@layout/partial_line"/>
-
                 <EditText
-                    style="@style/EditTextManagerPoll"
-                    android:text="@={information.poll.title}"/>
+                    android:id="@+id/edt_poll_title"
+                    style="@style/RegisterEditTextStyle"
+                    android:hint="@string/hint_poll_title"
+                    android:inputType="textEmailAddress"
+                    android:text="@={information.poll.title}"
+                    bind:setErrorEditText="@{msgError}"/>
 
             </LinearLayout>
 
             <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="0.18"
-                android:background="@drawable/bg_edit_text"
+                style="@style/RegisterLayoutStyle"
                 android:entries="@array/num_answer"
                 bind:numAnswer="@{information.poll.multiple}"/>
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edit_send_email"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_8"
                 android:background="@drawable/bg_edit_text"
+                android:gravity="start"
                 android:hint="@string/title_description_poll"
-                android:padding="@dimen/dp_10"
-                android:text="@={information.poll.description}"
-                android:textSize="@dimen/sp_17"/>
+                android:minHeight="@dimen/dp_180"
+                android:padding="@dimen/dp_8"
+                android:text="@={information.poll.description}"/>
 
-            <LinearLayout style="@style/LayoutManagerPoll">
+            <LinearLayout
+                android:id="@+id/btn_choose_time"
+                style="@style/RegisterLayoutStyle"
+                android:onClick="@{() -> handler. showDatePicker()}">
 
                 <ImageView
-                    style="@style/ImageViewLogin"
+                    style="@style/RegisterImageViewStyle"
+                    android:layout_margin="@dimen/dp_1"
+                    android:background="@color/color_gray"
+                    android:padding="@dimen/dp_10"
                     android:src="@drawable/ic_alarm_black_24px"/>
 
-                <include layout="@layout/partial_line"/>
-
-                <EditText
-                    style="@style/EditTextLogin"
-                    android:hint="@string/title_time_close_poll"
-                    android:inputType="datetime"
-                    android:text="@={information.poll.createdTime}"/>
+                <TextView
+                    android:id="@+id/edt_choose_time"
+                    style="@style/RegisterEditTextStyle"
+                    android:gravity="center_vertical"
+                    android:text="@{TimeUtil.convertTimeToString(fragment.mTime)}"/>
 
             </LinearLayout>
 
-            <LinearLayout style="@style/LayoutManagerPoll">
+            <LinearLayout
+                style="@style/RegisterLayoutStyle">
 
                 <ImageView
-                    style="@style/ImageViewLogin"
+                    style="@style/RegisterImageViewStyle"
+                    android:layout_margin="@dimen/dp_1"
+                    android:background="@color/color_gray"
+                    android:padding="@dimen/dp_10"
                     android:src="@drawable/ic_location_on_black_24px"/>
 
-                <include layout="@layout/partial_line"/>
-
                 <EditText
-                    style="@style/EditTextLogin"
-                    android:hint="@string/title_location"
-                    android:inputType="text"
-                    android:text="@{information.poll.location}"/>
+                    style="@style/RegisterEditTextStyle"
+                    android:hint="@string/hint_position"
+                    android:inputType="textEmailAddress"
+                    android:text="@={information.poll.location}"/>
 
             </LinearLayout>
 
@@ -155,11 +185,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dp_20"
                 android:background="@color/color_teal_500"
+                android:onClick="@{() -> handler. saveData()}"
                 android:text="@string/title_save_data"
                 android:textAllCaps="false"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/sp_17"/>
-
         </LinearLayout>
     </ScrollView>
 </layout>

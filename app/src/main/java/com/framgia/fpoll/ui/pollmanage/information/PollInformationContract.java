@@ -11,11 +11,17 @@ public interface PollInformationContract {
         void startUiVoting();
         void showDialogOption();
         void showDialogSetting();
+        void showDatePicker();
+        void showTimePicker();
+        void bindError();
     }
 
     interface Presenter {
         void clickLinkVote();
         void clickViewOption();
         void clickViewSetting();
+        void showDatePicker();
+        void showTimePicker();
+        void saveData();
     }
 }

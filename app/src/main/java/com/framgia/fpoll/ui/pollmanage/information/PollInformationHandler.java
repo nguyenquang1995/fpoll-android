@@ -26,4 +26,12 @@ public class PollInformationHandler {
         if (mListener == null) return;
         mListener.clickViewSetting();
     }
+
+    public void showDatePicker() {
+        if (mListener != null) mListener.showDatePicker();
+    }
+
+    public void saveData() {
+        if (mListener != null) mListener.saveData();
+    }
 }
