@@ -71,8 +71,11 @@ public class PollHistoryFragment extends Fragment implements PollHistoryContract
                 SharePreferenceUtil.getIntances(getActivity()));
         mBinding.setPresenter((PollHistoryPresenter) mPresenter);
         mBinding.setFragment(this);
-        mAdapter.set(new PollHistoryAdapter(getContext(), mListPollHistory, mPollHistoryType,
-                mPresenter));
+        mAdapter.set(new PollHistoryAdapter(mListPollHistory, mPollHistoryType, mPresenter));
+        setPollHistory(mListPollHistory);
+        if (SharePreferenceUtil.getIntances(getContext()).isLogin()) {
+            mBinding.emptyLayout.setVisibility(View.GONE);
+        }
         mPresenter.getData();
         return mBinding.getRoot();
     }
@@ -91,6 +94,24 @@ public class PollHistoryFragment extends Fragment implements PollHistoryContract
     public void setPollHistory(List<HistoryPoll> pollHistories) {
         mListPollHistory.clear();
         mListPollHistory.addAll(pollHistories);
+        if (mListPollHistory.size() == 0) {
+            mBinding.emptyLayout.setVisibility(View.VISIBLE);
+            boolean isLogin = SharePreferenceUtil.getIntances(getContext()).isLogin();
+            String message = getContext().getString(R.string.no_item_need_login);
+            if (isLogin && mPollHistoryType.equals(PollHistoryType.CLOSE)) {
+                message = getContext().getString(R.string.no_item_closed);
+                mBinding.emptyLayout.setMessage(message);
+                return;
+            }
+            if (isLogin) {
+                message = getContext().getString(R.string.no_item);
+                mBinding.emptyLayout.setMessage(message);
+                return;
+            }
+            mBinding.emptyLayout.setMessage(message);
+            return;
+        }
+        mBinding.emptyLayout.setVisibility(View.GONE);
         mAdapter.get().update(mListPollHistory);
     }
 
@@ -116,6 +137,7 @@ public class PollHistoryFragment extends Fragment implements PollHistoryContract
     public void clearData() {
         if (mListPollHistory != null && mAdapter != null && mAdapter.get() != null) {
             mListPollHistory.clear();
+            setPollHistory(mListPollHistory);
             mAdapter.get().update(mListPollHistory);
         }
     }
@@ -140,6 +162,7 @@ public class PollHistoryFragment extends Fragment implements PollHistoryContract
 
     @Override
     public void showDialog() {
+        mBinding.emptyLayout.setVisibility(View.GONE);
         if (mDialog == null) mDialog = new FPollProgressDialog(getActivity());
         mDialog.show();
     }

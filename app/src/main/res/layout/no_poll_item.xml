@@ -5,12 +5,17 @@
             name="message"
             type="java.lang.String"
             />
+        <variable
+            name="visibility"
+            type="int"
+            />
     </data>
     <LinearLayout
         android:id="@+id/linear_empty_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="@{visibility}"
         >
         <ImageView
             android:layout_width="@dimen/dp_100"

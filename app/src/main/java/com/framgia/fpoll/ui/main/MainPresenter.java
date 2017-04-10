@@ -49,10 +49,10 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onSuccess(String data) {
                 mView.showMessage(data);
-                mView.clearDataHome();
                 mPreference.writeUser(null);
                 mPreference.writeLogin(false);
                 setInformation();
+                mView.clearDataHome();
                 mView.hideProgressDialog();
             }
 

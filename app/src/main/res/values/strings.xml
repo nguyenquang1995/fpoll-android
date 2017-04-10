@@ -276,6 +276,7 @@
     <string name="action_next_setting">Setting</string>
     <string name="action_back_option">Option</string>
     <string name="action_save_setting">Save setting</string>
+    <string name="no_item_closed">No item</string>
     <string name="no_item">No item, click (+) to create poll</string>
     <string name="no_item_need_login">No item, please login</string>
     <string name="title_join_poll">Join poll</string>
