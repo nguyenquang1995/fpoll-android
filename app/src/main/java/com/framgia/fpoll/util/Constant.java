@@ -14,6 +14,7 @@ public class Constant {
     public static final int POSITION_LINK_ADMIN = 1;
     public static final int POSITION_LINK_INVITE = 0;
     public static final int LIMIT_VOTE_NUMBER_MINIUM = 2;
+    public static final int TIME_DELAY_CHANGE_ACTIVITY = 3000;
 
     public class TypeChoose {
         public static final int TYPE_MULTI = 1;
@@ -142,6 +143,7 @@ public class Constant {
         public static final String PREF_EMAIL = "PREF_EMAIL";
         public static final String PREF_PASSWORD = "PREF_PASSWORD";
         public static final String PREF_REMEM_BER = "PREF_REMEM_BER";
+        public static final String PREF_IS_FIRST_INSTALL = "PREF_IS_FIRST_INSTALL";
     }
 
     public class Language {

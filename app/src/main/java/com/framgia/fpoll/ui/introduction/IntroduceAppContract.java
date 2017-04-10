@@ -15,6 +15,7 @@ public interface IntroduceAppContract {
         void openLikeDin();
         void updateIntroduceView(List<IntroduceItem> list);
         void updateIntroduceError();
+        void nextActivity();
     }
 
     interface Presenter {

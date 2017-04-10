@@ -1,7 +1,6 @@
 package com.framgia.fpoll.ui.main;
 
 import android.databinding.ObservableBoolean;
-
 import com.android.annotations.NonNull;
 import com.framgia.fpoll.data.model.authorization.User;
 import com.framgia.fpoll.data.source.DataCallback;
@@ -23,8 +22,7 @@ public class MainPresenter implements MainContract.Presenter {
     private final ObservableBoolean mIsLogin = new ObservableBoolean();
 
     public MainPresenter(MainContract.View view, @NonNull LoginRepository repository,
-                         SettingRepository settingRepository,
-                         @NonNull SharePreferenceUtil preference) {
+            SettingRepository settingRepository, @NonNull SharePreferenceUtil preference) {
         mView = view;
         mRepository = repository;
         mSettingRepository = settingRepository;

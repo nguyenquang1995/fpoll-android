@@ -5,14 +5,16 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-
 import com.framgia.fpoll.R;
 import com.framgia.fpoll.data.model.IntroduceItem;
 import com.framgia.fpoll.data.source.local.IntroduceRepository;
 import com.framgia.fpoll.databinding.ActivityIntroduceBinding;
+import com.framgia.fpoll.ui.authenication.activity.AuthenticationActivity;
 import com.framgia.fpoll.util.ActivityUtil;
-
+import com.framgia.fpoll.util.Constant;
+import com.framgia.fpoll.util.SharePreferenceUtil;
 import java.util.List;
 
 public class IntroduceActivity extends AppCompatActivity implements IntroduceAppContract.View {
@@ -28,6 +30,7 @@ public class IntroduceActivity extends AppCompatActivity implements IntroduceApp
         start();
         mBinding.setHandler(new IntroduceHandlerAction(mPresenter));
         mBinding.setActivity(this);
+        nextActivity();
     }
 
     @Override
@@ -41,22 +44,21 @@ public class IntroduceActivity extends AppCompatActivity implements IntroduceApp
 
     @Override
     public void openFaceBook() {
-        Intent browserIntent =
-            new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.title_facebook_company)));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.title_facebook_company)));
         startActivity(browserIntent);
     }
 
     @Override
     public void openGitHub() {
         Intent browserIntent =
-            new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.title_github_company)));
+                new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.title_github_company)));
         startActivity(browserIntent);
     }
 
     @Override
     public void openLikeDin() {
-        Intent browserIntent =
-            new Intent(Intent.ACTION_VIEW,
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse(getString(R.string.title_linkedin_company)));
         startActivity(browserIntent);
     }
@@ -69,6 +71,20 @@ public class IntroduceActivity extends AppCompatActivity implements IntroduceApp
     @Override
     public void updateIntroduceError() {
         ActivityUtil.showToast(this, R.string.msg_not_load_item);
+    }
+
+    @Override
+    public void nextActivity() {
+        if (!SharePreferenceUtil.getIntances(getApplicationContext())
+                .getBoolean(Constant.PreferenceConstant.PREF_IS_FIRST_INSTALL)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(IntroduceActivity.this, AuthenticationActivity.class));
+                    finish();
+                }
+            }, Constant.TIME_DELAY_CHANGE_ACTIVITY);
+        }
     }
 
     @Override

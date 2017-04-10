@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (shouldStartIntro()) return;
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mPresenter = new MainPresenter(this, LoginRepository.getInstance(getApplicationContext()),
                 SettingRepository.getInstance(getApplicationContext()),
@@ -244,6 +245,17 @@ public class MainActivity extends AppCompatActivity
             ((HistoryFragment) fragment).clearData();
             setIsShowAddPoll(true);
         }
+    }
+
+    @Override
+    public boolean shouldStartIntro() {
+        if (!SharePreferenceUtil.getIntances(getApplicationContext())
+                .getBoolean(Constant.PreferenceConstant.PREF_IS_FIRST_INSTALL)) {
+            startActivity(new Intent(MainActivity.this, IntroduceActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 
     public void setIsShowAddPoll(boolean isShow) {

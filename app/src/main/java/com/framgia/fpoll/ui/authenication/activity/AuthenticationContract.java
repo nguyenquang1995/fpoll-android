@@ -8,6 +8,7 @@ import com.framgia.fpoll.ui.base.BaseView;
  */
 public interface AuthenticationContract {
     interface View extends BaseView {
+        void nextActivity();
     }
 
     interface Presenter {

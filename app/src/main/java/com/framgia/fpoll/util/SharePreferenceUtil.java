@@ -2,10 +2,8 @@ package com.framgia.fpoll.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.framgia.fpoll.data.model.authorization.User;
 import com.google.gson.Gson;
-
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;

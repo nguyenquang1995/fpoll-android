@@ -4,19 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
-
 import com.framgia.fpoll.R;
 import com.framgia.fpoll.databinding.ActivityAuthenticationBinding;
 import com.framgia.fpoll.ui.authenication.login.LoginFragment;
 import com.framgia.fpoll.ui.authenication.register.RegisterFragment;
 import com.framgia.fpoll.ui.authenication.resetpassword.ForgotPasswordFragment;
 import com.framgia.fpoll.ui.base.BaseActivity;
+import com.framgia.fpoll.ui.main.MainActivity;
 import com.framgia.fpoll.util.ActivityUtil;
+import com.framgia.fpoll.util.Constant;
+import com.framgia.fpoll.util.SharePreferenceUtil;
 
 /**
  * Created by tuanbg on 2/9/17.
@@ -64,6 +67,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_authentication);
         mPresenter = new AuthenticationPresenter(this);
         showLoginFragment();
+        nextActivity();
     }
 
     @Override
@@ -92,16 +96,14 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         if (mLoginFragment == null) {
             mLoginFragment = LoginFragment.newInstance(mEventSwitchUI);
         }
-        ActivityUtil
-            .addFragment(getSupportFragmentManager(), mLoginFragment, R.id.frame_layout);
+        ActivityUtil.addFragment(getSupportFragmentManager(), mLoginFragment, R.id.frame_layout);
     }
 
     private void showForgotPasswordFragment() {
         if (mPasswordFragment == null) {
             mPasswordFragment = ForgotPasswordFragment.newInstance();
         }
-        ActivityUtil.addFragment(getSupportFragmentManager(), mPasswordFragment,
-            R.id.frame_layout);
+        ActivityUtil.addFragment(getSupportFragmentManager(), mPasswordFragment, R.id.frame_layout);
         setTitle(R.string.title_forgot_password);
     }
 
@@ -109,8 +111,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         if (mRegisterFragment == null) {
             mRegisterFragment = RegisterFragment.newInstance(mEventSwitchUI);
         }
-        ActivityUtil.addFragment(getSupportFragmentManager(), mRegisterFragment,
-            R.id.frame_layout);
+        ActivityUtil.addFragment(getSupportFragmentManager(), mRegisterFragment, R.id.frame_layout);
         setTitle(R.string.title_register);
     }
 
@@ -125,9 +126,28 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         showLoginFragment();
     }
 
+    @Override
+    public void nextActivity() {
+        if (!SharePreferenceUtil.getIntances(getApplicationContext())
+                .getBoolean(Constant.PreferenceConstant.PREF_IS_FIRST_INSTALL)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+                    finish();
+                    SharePreferenceUtil.getIntances(getApplicationContext())
+                            .writePreference(Constant.PreferenceConstant.PREF_IS_FIRST_INSTALL,
+                                    true);
+                }
+            }, Constant.TIME_DELAY_CHANGE_ACTIVITY);
+        }
+    }
+
     public interface EventSwitchUI extends Parcelable {
         void switchUiForgotPassword();
+
         void switchUiRegister();
+
         void switchUiLogin();
     }
 }
